@@ -27,8 +27,57 @@ def policyWiseCount(df):
     return pd.DataFrame({"2 to 5 Claims: ": pd.Series(counts[(counts>=2) & (counts<=5)].index),
                          "5 to 10 Claims: ": pd.Series(counts[(counts>=6) & (counts<=10)].index),
                          "Greater than 10 Claims: ": pd.Series(counts[(counts>10)].index)})
-print(categoryTable(hi,"PRODUCT_CODE","TOTAL"))
-print(aggregation(mi,"TOTAL"))
-print(duplicateCount(fi,"POLICY_NO"))
-print(policyWiseCount(hi))
+def premiumSummary(df):
+    return pd.DataFrame({
+        "Metric":["Policy Count","Total Premium"],
+        "Value":[df["POLICY_NUMBER"].count(),df["TOTAL_PREMIUM"].sum()]}).round(2)
+pf=pd.read_csv("Fire_Premium_FY25_26-Export Worksheet.csv")
+def productWisePremium(df):
+
+    result = (
+        df.groupby("PRODUCT_NAME")
+        .agg(
+            Policy_Count=("POLICY_NUMBER", "nunique"),
+            Premium_Amount=("TOTAL_PREMIUM", "sum")
+        )
+        .reset_index()
+    )
+
+    return result
+
+def roWisePremium(df):
+
+    result = (
+        df.groupby("REGIONAL_OFFICE_CODE")
+        .agg(
+            Policy_Count=("POLICY_NUMBER", "nunique"),
+            Premium_Amount=("TOTAL_PREMIUM", "sum")
+        )
+        .reset_index()
+    )
+
+    return result
+def premiumClaimSummary(premium_df, claims_df):
+
+    total_premium = premium_df["TOTAL_PREMIUM"].sum()
+
+    total_claims = claims_df["TOTAL"].sum()
+
+    profit_loss = total_premium - total_claims
+
+    loss_ratio = (
+        total_claims / total_premium
+    ) * 100
+
+    premium_coverage = (
+        total_premium / total_claims
+    )
+
+    return {
+        "total_premium": total_premium,
+        "total_claims": total_claims,
+        "profit_loss": profit_loss,
+        "loss_ratio": loss_ratio,
+        "premium_coverage": premium_coverage
+    }
 
