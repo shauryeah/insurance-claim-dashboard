@@ -31,7 +31,7 @@ def premiumSummary(df):
     return pd.DataFrame({
         "Metric":["Policy Count","Total Premium"],
         "Value":[df["POLICY_NUMBER"].count(),df["TOTAL_PREMIUM"].sum()]}).round(2)
-pf=pd.read_csv("Fire_Premium_FY25_26-Export Worksheet.csv")
+#pf=pd.read_csv("Fire_Premium_FY25_26-Export Worksheet.csv")
 def productWisePremium(df):
 
     result = (
