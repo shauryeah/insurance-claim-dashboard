@@ -439,11 +439,11 @@ elif dataset=="Fire":
 
     else:
 
-        premium_df = pd.read_csv(
-            "Fire_Premium_FY25_26-Export Worksheet.csv"
-        )
-
-        show_premium_dashboard(premium_df)
+        #premium_df = pd.read_csv(
+            #"Fire_Premium_FY25_26-Export Worksheet.csv"
+        #)
+        st.write("In Progresss")
+        #show_premium_dashboard(premium_df)
 
 else:
 
